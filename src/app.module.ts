@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { configValidationSchema } from './config.schema';
+import { ProductsModule } from './products/products.module';
+import { ProductController } from './product/product.controller';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { configValidationSchema } from './config.schema';
       }),
     }),
     AuthModule,
+    ProductsModule,
   ],
+  controllers: [ProductController],
 })
 export class AppModule {}
