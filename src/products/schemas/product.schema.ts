@@ -1,6 +1,23 @@
-import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { User } from 'src/auth/schemas/user.schema';
+
+export type ProductDocument = Product & Document;
+export type ReviewsDocument = Reviews & Document;
+
+@Schema()
+export class Reviews {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  user?: User;
+  @Prop({ type: String, required: true })
+  name: string;
+  @Prop({ type: Number, required: true })
+  rating: number;
+  @Prop({ type: String, required: true })
+  comment: string;
+  @Prop({ type: Date, default: Date.now })
+  createdAt?: Date;
+}
 
 @Schema()
 export class Product {
@@ -16,20 +33,8 @@ export class Product {
   category: string;
   @Prop({ type: String, required: true })
   description: string;
-  @Prop(
-    raw({
-      name: { type: String, required: true },
-      rating: { type: Number, required: true },
-      comment: { type: String, required: true },
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User',
-      },
-      createdAt: { type: Date, default: Date.now },
-    }),
-  )
-  reviews: [Record<string, any>];
+  @Prop([Reviews])
+  reviews: Reviews[];
   @Prop({ type: Number, required: true, default: 0 })
   rating: number;
 
