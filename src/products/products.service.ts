@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { User } from 'src/auth/schemas/user.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { createReviewsDto } from './dto/create-reviews.dto';
 import { Product, ProductDocument } from './schemas/product.schema';
@@ -13,7 +14,10 @@ export class ProductsService {
   ) {}
 
   //CREATE PRODUCT
-  async createProduct(createProductDto: CreateProductDto): Promise<Product> {
+  async createProduct(
+    createProductDto: CreateProductDto,
+    user: any,
+  ): Promise<Product> {
     const {
       name,
       image,
@@ -26,6 +30,7 @@ export class ProductsService {
     } = createProductDto;
 
     const productField = {
+      user: user._id,
       name: name && name,
       image: image && image,
       brand: brand && brand,
@@ -48,6 +53,7 @@ export class ProductsService {
   async createReviews(
     createReviewsDto: createReviewsDto,
     id: string,
+    user: any,
   ): Promise<Product> {
     let product = await this.productModel.findById(id);
     const { rating, comment } = createReviewsDto;
@@ -63,6 +69,7 @@ export class ProductsService {
       }
 
       product.reviews.push({
+        user: user._id,
         name: 'name',
         rating: Number(rating),
         comment: comment,
