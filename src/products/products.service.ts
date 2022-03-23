@@ -110,4 +110,15 @@ export class ProductsService {
       throw new InternalServerErrorException('Product not found');
     }
   }
+
+  //Get one product
+
+  async getProductById(id: string): Promise<Product> {
+    const product = await this.productModel.findById(id);
+    if (product) {
+      return product;
+    } else {
+      throw new InternalServerErrorException('Product not found');
+    }
+  }
 }

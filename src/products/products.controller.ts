@@ -46,4 +46,10 @@ export class ProductsController {
   ): Promise<Product> {
     return await this.productsService.createReviews(createReviewsDto, id, user);
   }
+
+  //GET PRODUCT BY ID
+  @Get('/:id')
+  async getProductById(@Param('id') id: string): Promise<Product> {
+    return await this.productsService.getProductById(id);
+  }
 }
