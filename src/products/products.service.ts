@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { User } from 'src/auth/schemas/user.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { createReviewsDto } from './dto/create-reviews.dto';
+import { GetProductsFilterDto } from './dto/get-products.dto';
 import { Product, ProductDocument } from './schemas/product.schema';
 
 @Injectable()
@@ -12,6 +13,28 @@ export class ProductsService {
     @InjectModel(Product.name)
     private readonly productModel: Model<ProductDocument>,
   ) {}
+
+  //GET ALL PRODUCTS
+  async getProducts(getProductsFilterDto: GetProductsFilterDto): Promise<any> {
+    let { pageSize, pageNumber, keyword } = getProductsFilterDto;
+
+    pageSize = 10;
+    const page = Number(pageNumber) || 1;
+
+    keyword = keyword
+      ? {
+          name: { $regex: keyword, $options: 'i' },
+        }
+      : {};
+
+    const count = await this.productModel.countDocuments({ ...keyword });
+    const products = await this.productModel
+      .find({ ...keyword })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+
+    return { products, page, pages: Math.ceil(count / pageSize) };
+  }
 
   //CREATE PRODUCT
   async createProduct(
