@@ -59,4 +59,10 @@ export class ProductsController {
   async deleteProductById(@Param('id') id: string): Promise<Product> {
     return await this.productsService.deleteProduct(id);
   }
+
+  //GET TOP RATED PRODUCT
+  @Get('/top-rated')
+  async getTopRatedProducts(): Promise<Product[]> {
+    return await this.productsService.getTopRatedProducts();
+  }
 }

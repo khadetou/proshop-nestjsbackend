@@ -131,4 +131,13 @@ export class ProductsService {
       throw new InternalServerErrorException('Product not found');
     }
   }
+
+  //Get top rated products
+  async getTopRatedProducts(): Promise<Product[]> {
+    const products = await this.productModel
+      .find({})
+      .sort({ rating: -1 })
+      .limit(3);
+    return products;
+  }
 }
