@@ -121,4 +121,14 @@ export class ProductsService {
       throw new InternalServerErrorException('Product not found');
     }
   }
+
+  //DELETE PRODUCT
+  async deleteProduct(id: string): Promise<Product> {
+    const product = await this.productModel.findById(id);
+    if (product) {
+      return await product.remove();
+    } else {
+      throw new InternalServerErrorException('Product not found');
+    }
+  }
 }

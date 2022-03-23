@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -51,5 +52,11 @@ export class ProductsController {
   @Get('/:id')
   async getProductById(@Param('id') id: string): Promise<Product> {
     return await this.productsService.getProductById(id);
+  }
+
+  //DELETE PRODUCT BY ID
+  @Delete('/:id')
+  async deleteProductById(@Param('id') id: string): Promise<Product> {
+    return await this.productsService.deleteProduct(id);
   }
 }
