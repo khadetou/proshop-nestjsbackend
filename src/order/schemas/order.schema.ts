@@ -1,12 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
+import { User } from 'src/auth/schemas/user.schema';
+import { Product } from 'src/products/schemas/product.schema';
 
 export type OrderDocument = Order & Document;
 
 @Schema()
 export class Order {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
-  user: string;
+  user: User;
 
   @Prop({
     type: [
@@ -28,7 +30,7 @@ export class Order {
     qty: number;
     image: string;
     price: number;
-    product: string;
+    product: Product;
   }[];
 
   @Prop({
