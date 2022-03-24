@@ -58,7 +58,7 @@ export class Order {
       email_address: { type: String },
     },
   })
-  paymentResult: {
+  paymentResult?: {
     id: string;
     status: string;
     update_time: string;
