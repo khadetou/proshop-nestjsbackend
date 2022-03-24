@@ -25,7 +25,7 @@ export class Order {
       },
     ],
   })
-  orderItmes: {
+  orderItems: {
     name: string;
     qty: number;
     image: string;
@@ -52,14 +52,14 @@ export class Order {
 
   @Prop({
     type: {
-      id: { type: String },
+      _id: { type: String },
       status: { type: String },
       update_time: { type: String },
       email_address: { type: String },
     },
   })
   paymentResult?: {
-    id: string;
+    _id: string;
     status: string;
     update_time: string;
     email_address: string;
@@ -77,7 +77,7 @@ export class Order {
   @Prop({ type: Boolean, required: true, default: false })
   isPaid: boolean;
   @Prop({ type: Date })
-  paidAt: Date;
+  paidAt: number;
 
   @Prop({ type: Boolean, required: true, default: false })
   isShipped: boolean;
